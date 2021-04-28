@@ -1,5 +1,5 @@
-from results_perser_utils import file_parser
-from dynamic_plot_lib_v3 import dynamic_plot 
+from utils.results_perser_utils import file_parser
+from utils.dynamic_plot_lib_v3 import dynamic_plot 
 import argparse
 import os
 import numpy as np
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     parser.add_argument(
       '--file', '-f',
       type=str,
-      default = "results/margin_study.txt",
+      default = "results_paper/margin_study.txt",
       required=False,
       help='Dataset to train with. No Default',
     )
@@ -98,26 +98,11 @@ if __name__ == '__main__':
     file_to_parse = FLAGS.file
     # Parse file
     results = file_parser(file_to_parse)
-    # Demo: get all data belonging to cross_val_00
-    
-
-    
-    #margin_fig = plots('Margin Tuning',grid_on=False)
-    #cross_val_00 = results[results.session == 'cross_val_00']
-    #margin_fig.update(color = 'g',label = '00',f1 = cross_val_00['F1'],margin=cross_val_00['margin'])
-    #cross_val_02 = results[results.session == 'cross_val_02']
-    #margin_fig.update(color = 'r',label = '02',f1 = cross_val_02['F1'],margin=cross_val_02['margin'])
-    #cross_val_05 = results[results.session == 'cross_val_05']
-    #margin_fig.update(color= 'b',label = '05',f1 = cross_val_05['F1'],margin=cross_val_05['margin'])
-    #cross_val_06 = results[results.session == 'cross_val_06']
-    #margin_fig.update(color ='y',label = '06',f1 = cross_val_06['F1'],margin=cross_val_06['margin'])
-    #cross_val_08 = results[results.session == 'cross_val_08']
-    #margin_fig.update(color = 'k',label = '08',f1 = cross_val_08['F1'],margin=cross_val_08['margin'])
 
     statistic = compt_statics(results)
     
-    print(statistic['mean'])
-    print(statistic['std'])
+    print("Mean F1: {}".format(statistic['mean']))
+    print("std F1: {}".format(statistic['std']))
 
     margin_mean_fig = plots('',grid_on=False)
     margin_mean_fig.update(color = 'k',
@@ -128,5 +113,4 @@ if __name__ == '__main__':
                       fill = statistic['std']
                       )
 
-    #margin_fig.hold()
     margin_mean_fig.hold()

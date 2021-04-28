@@ -2,8 +2,8 @@ architecture:
 - backbone
 - attention
 attention:
-  emb_dim: 256
-  n_layers: 2
+  emb_dim: 64
+  n_layers: 1
   name: attention
   norm: false
   train: true
@@ -14,14 +14,12 @@ backbone:
   dropout: 0.05
   encoders:
   - 0
-  - 1
-  - 2
   extra:
     layers: 53
   input_depth:
-    range: true
+    range: false
     remission: true
-    xyz: true
+    xyz: false
   name: darknetv3
   train: true
 dataset:
@@ -76,5 +74,5 @@ outlayer:
   norm:
     dim:
     - 64
-    - 64
+    - 256
   train: true

@@ -1,5 +1,5 @@
-from results_perser_utils import conv2dic
-from dynamic_plot_lib_v3 import dynamic_plot 
+from utils.results_perser_utils import conv2dic
+from utils.dynamic_plot_lib_v3 import dynamic_plot 
 import argparse
 import os
 import numpy as np
@@ -38,8 +38,6 @@ class plots():
     if 'linestyle' in arg:
       karg['linestyle'] = arg['linestyle']
 
-    #idx = np.argmax(y)
-    #m_max,f1_max = layers[idx],f1[idx]
     self.axis_limit = {'xmin':min(x),'xmax':max(x),'ymin':0,'ymax':1}
 
     self.plot.add_plot( key,
@@ -141,7 +139,7 @@ if __name__ == '__main__':
       help='Dataset to train with. No Default',
     )
 
-    sequences = ['cross_val_08']
+    sequences = ['cross_val_00']
     
     fig = plots('',grid_on=True)
 

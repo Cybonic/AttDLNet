@@ -1,21 +1,9 @@
 import os 
-from script_run_train_rattnet import run_script
+from script_run_train import run_script
 import yaml
 from datetime import datetime
-from utils import dump_info
+from utils.utils import dump_info
 
-def dump_conf_info(file, cfg, flag='w'):
-
-    f = open('results/' + file,flag)
-
-    if isinstance(cfg,dict):
-        for key, values in cfg.items():
-            line = "{} {}".format(key,values)
-            f.write(line + '\n')
-    elif isinstance(cfg,str):
-        f.write(cfg + '\n')
-    
-    f.close()
 
 def statup_session(**arg):
 
@@ -52,7 +40,7 @@ def set_margin(src,dest,value):
     session['train']['max_epochs'] = 21
     session['train']['report_val'] = 3
     session['train']['fraction'] = round(1/5,2)
-    session['val']['fraction'] = round(1/3,2)
+    session['test']['fraction'] = round(1/3,2)
     
     with open(dest_path, 'w') as file:
         documents = yaml.dump(session, file)
@@ -79,8 +67,8 @@ def network_cfg(src_model,dest_model):
 if __name__ == '__main__':
     
     TYPE_ = 'cross_val'
-    root = "checkpoints/rattnet/"
-    CMD = 'train_rattnet_knnv3.py'
+    root = "checkpoints/"
+    CMD = 'train_knn.py'
 
     SEQUENCES = ['ex0','ex2','ex5','ex6','ex8']
     models = ['1bb_1a_norm','2bb_1a_norm','3bb_1a_norm','4bb_1a_norm','5bb_1a_norm']

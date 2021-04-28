@@ -1,13 +1,11 @@
 import os 
-from script_run_train_rattnet import run_script
+from script_run_train import run_script
 import yaml
 from datetime import datetime
-from utils import dump_info
+from utils.utils import dump_info
 
-# os.system('python.exe extract_latent_space_label.py --seq 00')
-#models = ['sim_isr_backbone','sim_isr_1_attention','sim_isr_2_attention','sim_isr_3_attention','sim_isr_4_attention']
 
-def attetion_session(**arg):
+def attention_session(**arg):
 
     session = arg['session']
     model   = arg['model']
@@ -15,10 +13,8 @@ def attetion_session(**arg):
     results  = arg['results']
     checkpoints = arg['checkpoints']
    
-    # print("[SCRIPT FILE] "+ model)
     
     dest_network,dest_session = set_cfg(model,session,cfg)
-    #sess = set_margin(session,dest_session,margin)
     
     run_script( cmd = arg['cmd'],
                 model = dest_network, 
@@ -80,9 +76,9 @@ def set_cfg(network,src_session,cfg):
 if __name__ == '__main__':
     
     # CMD = 'train_rattnet_knnv4.py'
-    CMD = "inference_rattnet.py"
+    CMD = "inference.py"
     TYPE_ = 'cross_val'
-    root = "checkpoints/rattnet/"
+    root = "checkpoints/"
 
     SEQUENCES = ['ex0','ex2','ex5','ex6','ex8']
     models = ['1bb_1a_norm','2bb_1a_norm','3bb_1a_norm','4bb_1a_norm','5bb_1a_norm']
@@ -110,7 +106,7 @@ if __name__ == '__main__':
                                     'backbone':{'train':True},
                                     'outlayer':{'train':True}},
                         'session':{ 'loss_function':{'margin':best_margin},
-                                    'val':{'fraction':round(1/3,2)}}
+                                    'test':{'fraction':round(1/3,2)}}
                 }
 
                 try:
@@ -118,7 +114,7 @@ if __name__ == '__main__':
                     s = '%02d'%(int(ex[-1]))
                     session = TYPE_ + '_' + s
 
-                    attetion_session(cmd = CMD,
+                    attention_session(cmd = CMD,
                                     model = model,
                                     session = session,
                                     results= results,

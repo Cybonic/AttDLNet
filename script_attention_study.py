@@ -2,7 +2,7 @@ import os
 from script_run_train import run_script
 import yaml
 from datetime import datetime
-from utils import dump_info
+from utils.utils import dump_info
 
 
 def attetion_session(**arg):
