@@ -3,7 +3,7 @@ import numpy as np
 import torch
 import dataset_utils.kitti.utils as utils
 from torch.utils.data import Dataset
-from common.laserscan import LaserScan, SemLaserScan
+from common.laserscan import LaserScan
 from torch.utils.data import DataLoader, random_split
 from random import seed
 import math

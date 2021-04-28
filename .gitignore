@@ -1,4 +1,4 @@
 .vscode
 checkpoints/
-*/__pycache__/
+__pycache__/
 psftp/

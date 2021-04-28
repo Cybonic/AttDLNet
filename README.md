@@ -33,12 +33,5 @@ The pretrained models with a specific dataset maintain the copyright of such dat
 If you use our framework, model, or predictions for any academic work, please cite the original [paper](), and the [dataset]().
 
 ```
-@inproceedings{milioto2019iros,
-  author    = {A. Milioto and I. Vizzo and J. Behley and C. Stachniss},
-  title     = {{RangeNet++: Fast and Accurate LiDAR Semantic Segmentation}},
-  booktitle = {IEEE/RSJ Intl.~Conf.~on Intelligent Robots and Systems (IROS)},
-  year      = 2019,
-  codeurl   = {https://github.com/PRBonn/lidar-bonnetal},
-  videourl  = {https://youtu.be/wuokg7MFZyU},
-}
+
 ```
