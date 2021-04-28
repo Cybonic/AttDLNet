@@ -25,14 +25,14 @@ import torch
 from networks.attdlnet import *
 
 from dataset_utils.kitti import parser_test as pars
-from session_plot_utils import pose_plots
+from utils.session_plot_utils import pose_plots
 
 import time
 
 import random
-from dynamic_plot_lib_v3 import dynamic_plot
+from utils.dynamic_plot_lib_v3 import dynamic_plot
 from torch.utils.data import DataLoader, random_split
-from utils import dump_info
+from utils.utils import dump_info
 
 
 def evaluation(local_pred,gt_idx,gt_loop):

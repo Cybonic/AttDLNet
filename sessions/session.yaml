@@ -1,0 +1,35 @@
+loss_function:
+  margin: 0.85
+  reduction: sum
+name: cross_val_00
+pretrained_root: checkpoints
+test:
+  batch_size: 1
+  fraction: 0.2
+  gt: false
+  range_thres: 6
+  shuffle: false
+  split:
+  - '00'
+  top_cand: 1
+  workers: 0
+train:
+  batch_size: 3
+  fraction: 0.2
+  max_epochs: 20
+  report_batch: 1
+  report_val: 2
+  rotation:
+    angles:
+    - 180
+    - 45
+    - -45
+    fraction: 0.2
+  shuffle: true
+  split:
+  - '02'
+  - '05'
+  - '06'
+  - 08
+  workers: 0
+  wup_epochs: 1

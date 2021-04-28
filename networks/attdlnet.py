@@ -65,8 +65,8 @@ class attdlnet(nn.Module):
     self.total_weights = 0
 
     if 'backbone' in self.architecture: 
-      for param in ARCH['backbone'].items():
-          print(param)
+      #for param in ARCH['backbone'].items():
+      #    print(param)
 
       backbone_model_path = os.path.join('networks',self.ARCH["backbone"]["name"] + '.py')
       bboneModule = imp.load_source("bboneModule",backbone_model_path)
@@ -85,7 +85,7 @@ class attdlnet(nn.Module):
       self.mode_name.append(name)
 
       weights = sum(p.numel() for p in self.backbone.parameters())
-      print("[INF][%s] Backbone Param Param: %d"%(__name__,weights))
+      print("[INF][%s] Encoder Param: %d"%(__name__,weights))
       #self.model_blocks['backbone'] = self.backbone
       self.total_weights += weights
       self.model_blocks.append(("back",self.backbone))
@@ -95,8 +95,8 @@ class attdlnet(nn.Module):
 
     if 'attention' in self.architecture: 
       
-      for param in ARCH['attention'].items():
-        print(param)
+      #for param in ARCH['attention'].items():
+      #  print(param)
       
       self.attention = attnet(ARCH['attention'])
 

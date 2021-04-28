@@ -35,14 +35,14 @@ from inference import eval_net
 from dataset_utils.kitti import parser_test as test_pars
 from dataset_utils.kitti import parser_train as train_pars
 
-from session_plot_utils import pose_plots,metric_plots,loss_plots,distribution_plots
+from utils.session_plot_utils import pose_plots,metric_plots,loss_plots,distribution_plots
 
 #from modules.rattnet import *
 from datetime import datetime
 
 import random
 from torch.utils.data import DataLoader, random_split
-from utils import dump_info
+from utils.utils import dump_info
 
 
 def dump_info_to_file(**arg):
@@ -218,11 +218,11 @@ if __name__ == '__main__':
     # Verify if the selected pretrained exists 
     if os.path.isfile(pretrained_to_load):
       model.load_state_dict(torch.load(pretrained_to_load))
-      print("[INF] Pretrained Model was loaded: " + pretrained_to_load)
+      print("[INF] Pretrained model was loaded: " + pretrained_to_load)
     else: 
-      print("[INF] No Model loaded!")
+      print("[INF] No pretrained model loaded!")
   except:
-      print("[WRN] Something went wrong while loading the  Pretrained!")
+      print("[WRN] Something went wrong while loading the pretrained model!")
 
 
   # Device configuration

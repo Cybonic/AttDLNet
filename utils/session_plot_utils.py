@@ -1,7 +1,5 @@
-from dynamic_plot_lib_v3 import dynamic_plot
+from utils.dynamic_plot_lib_v3 import dynamic_plot
 import numpy as np
-
-# ========================================================================
 
 
 class pose_plots():
