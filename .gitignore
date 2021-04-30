@@ -2,3 +2,4 @@
 checkpoints/
 __pycache__/
 psftp/
+PointNetVlad.py

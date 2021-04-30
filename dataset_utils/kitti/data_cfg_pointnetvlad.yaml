@@ -1,0 +1,52 @@
+loop_labels:
+  path:
+    root: "D:\\OneDrive - isr.uc.pt\\Datasets\\Kitti\\odometry_semantic_dataset\\sequences"
+   
+
+dataset:
+  name: 'kitti'
+  path: 
+    root: "D:\\OneDrive - isr.uc.pt\\Datasets\\Kitti\\odometry_semantic_dataset"
+    #root: "E:\\Dataset\\kitti\\odometry_semantic_dataset"
+    scan: "velodyne"
+  labels: "kitti"
+  scans: "kitti"
+  max_points: 100000 # max of any scan in dataset
+  sensor:
+    name: "HDL64"
+    type: "spherical" # projective
+    fov_up: 3
+    fov_down: -25 
+    img_prop:
+      width: 512
+      height: 64
+    img_means: #range,x,y,z,signal
+      - 12.12
+      - 10.88
+      - 0.23
+      - -1.04
+      - 0.21
+    img_stds: #range,x,y,z,signal
+      - 12.32
+      - 11.47
+      - 6.91
+      - 0.86
+      - 0.16
+
+corr:
+  root: 'data'
+  ex0: 
+    REF: '00'
+    QER: '00'
+  ex2: 
+    REF: '02'
+    QER: '02'
+  ex5: 
+    REF: '05'
+    QER: '05'
+  ex6: 
+    REF: '06'
+    QER: '06'
+  ex8: 
+    REF: '08'
+    QER: '08'

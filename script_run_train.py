@@ -1,17 +1,21 @@
 import os
 import yaml
-
+import numpy as np
 CMD = 'train_knn.py'
 
 def run_script(**arg):
 
-    model    = arg['model']
+    train_arg_list = []
+    if "model" in arg:
+        model    = arg['model']
+        train_arg_list.append('--model')
+        train_arg_list.append(model)
+
     session  = arg['session']
     cmd      = arg['cmd']
 
-    train_arg_list  = [ '--model',model, 
-                        '--sess_cfg',session
-                        ]
+    train_arg_list.append('--sess_cfg')
+    train_arg_list.append(session)
 
     if 'results' in arg:
         value = arg['results']

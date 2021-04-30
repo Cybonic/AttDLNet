@@ -1,33 +1,32 @@
 loss_function:
-  margin: 0.0
+  margin: 0.85
   reduction: sum
-name: cross_val_00
+name: cross_val_02
 pretrained_root: checkpoints
 test:
   batch_size: 1
-  fraction: 0.33
+  fraction: 0.2
   gt: false
   range_thres: 6
   shuffle: false
   split:
-  - '00'
+  - '02'
   top_cand: 1
   workers: 0
 train:
-  batch_size: 3
+  batch_size: 1
   fraction: 0.2
-  max_epochs: 21
+  max_epochs: 20
   report_batch: 1
-  report_val: 3
+  report_val: 2
   rotation:
-    angles:
-    - 180
-    - 45
-    - -45
-    fraction: 0.2
+    fraction: 0
+  rotation_size: 0
+  save_scans: true
+  save_summary: false
   shuffle: true
   split:
-  - '02'
+  - '00'
   - '05'
   - '06'
   - 08

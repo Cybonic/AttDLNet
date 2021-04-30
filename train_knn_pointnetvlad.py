@@ -2,17 +2,10 @@
 # This file is covered by the LICENSE file in the root of this project.
 
 
-# Getting latend space using Hooks :
-#  https://towardsdatascience.com/the-one-pytorch-trick-which-you-should-know-2d5e9c1da2ca
-
-# Binary Classification
-# https://jbencook.com/cross-entropy-loss-in-pytorch/
-
 
 '''
-
-Version: 3.1 
- - pretrained model is automatically loaded based on the model and session names 
+Version:
+ - train pointNetVlad model on a retrieval-based task  using kitti
  
 '''
 import argparse
@@ -28,12 +21,13 @@ import signal, sys
 from sklearn.neighbors import NearestNeighbors
 from torch import optim
 import torch 
+import numpy as np
 
-from networks.attdlnet import *
+from networks.pointnetvlad import PointNetVlad
 
 from inference import eval_net
-from dataset_utils.kitti import parser_test as test_pars
-from dataset_utils.kitti import parser_train as train_pars
+from dataset_utils.kitti import pcl_parser_test as test_pars
+from dataset_utils.kitti import pcl_parser_train as train_pars
 
 from utils.session_plot_utils import pose_plots,metric_plots,loss_plots,distribution_plots
 
@@ -42,30 +36,6 @@ from datetime import datetime
 import random
 from torch.utils.data import DataLoader, random_split
 from utils.utils import dump_info
-
-
-def dump_info_to_file(**arg):
-  root = arg['root']
-  file_name = arg['name']
-  data = arg['DATA']
-  arch = arg['ARCH']
-  session = arg['Session']
-
-  if not os.path.isdir(root):
-      os.makedirs(root)
-  file = os.path.join(root,file_name + '.txt')
-  print("[INF] Save Log at File: " + file)
-  f = open(file,'w')
-
-  txt = "{}:{}\n"
-
-  for key, value in arch.items():
-    print(txt.format(key,value))
-    f.write(txt)
-  
-  for key, value in session.items():
-    print(txt.format(key,value))
-    f.write(txt)
 
 
 if __name__ == '__main__':
@@ -87,7 +57,7 @@ if __name__ == '__main__':
       '--model', '-m',
       type=str,
       required=False,
-      default='3bb_1a_norm',
+      default='pointnetvlad',
       help='Directory to get the trained model.'
   )
 
@@ -105,7 +75,6 @@ if __name__ == '__main__':
       type=str,
       required=False,
       default="darknet53-512",
-      #default="checkpoints/isr/sim_isr_1_attention_cross_val_00_f1_78.pth",
       help='Directory to get the trained model.'
   )
 
@@ -146,7 +115,7 @@ if __name__ == '__main__':
   print("----------\n")
 
   # open arch config file
-  cfg_file = os.path.join('dataset_utils',FLAGS.dataset,'data_cfg_hd.yaml')
+  cfg_file = os.path.join('dataset_utils',FLAGS.dataset,'data_cfg_pointnetvlad.yaml')
   try:
     print("Opening data config file: %s" % cfg_file)
     DATA = yaml.safe_load(open(cfg_file , 'r'))
@@ -155,19 +124,19 @@ if __name__ == '__main__':
     print("Error opening data yaml file.")
     quit()
 
-  model_cfg_file = os.path.join('model_cfg', FLAGS.model + '.yaml')
-  try:
-    print("Opening model config file: %s" % model_cfg_file)
-    ARCH = yaml.safe_load(open(model_cfg_file, 'r'))
-  except Exception as e:
-    print(e)
-    print("Error opening arch yaml file.")
-    quit()
-
   session_cfg_file = os.path.join('sessions', FLAGS.sess_cfg + '.yaml')
   try:
     print("Opening session config file: %s" % session_cfg_file)
     SESSION = yaml.safe_load(open(session_cfg_file, 'r'))
+  except Exception as e:
+    print(e)
+    print("Error opening arch yaml file.")
+    quit()
+  
+  model_cfg_file = os.path.join('model_cfg', FLAGS.model + '.yaml')
+  try:
+    print("Opening model config file: %s" % model_cfg_file)
+    ARCH = yaml.safe_load(open(model_cfg_file, 'r'))
   except Exception as e:
     print(e)
     print("Error opening arch yaml file.")
@@ -195,13 +164,13 @@ if __name__ == '__main__':
                                   session = SESSION['test'])
 
   train_loader = train_dataset.get_set()
-
   val_loader   = test_dataset.get_set()
   triplet_idx  = test_dataset.get_triplets() 
   
   # Loading the network and pretrained weights
-  model = attdlnet(ARCH)
-  model_name = model.get_model_name()
+  model = PointNetVlad(global_feat=True, feature_transform=True, max_pool=False,
+                                    output_dim=256, num_points=ARCH['max_points'])
+  model_name = "PointNetVlad"
   
   # Load Pretrained weights  
   pretrained_root = SESSION['pretrained_root']
@@ -227,7 +196,7 @@ if __name__ == '__main__':
   # Device configuration
   device = 'cpu'
   if torch.cuda.is_available():
-    device = 'cuda:0'
+    device = 'cuda:1'
     torch.cuda.empty_cache()
 
   model.to(device)
@@ -402,8 +371,8 @@ if __name__ == '__main__':
   except KeyboardInterrupt:
     print("[INF] CTR + C")
   
-  except:
-    print("[INF] Error")
+  except ValueError:
+    print("[INF] Error: {} ".format(ValueError))
 
   root = 'results/' + model_name + '_' + SESSION['name']
   
@@ -419,7 +388,7 @@ if __name__ == '__main__':
   text_to_store['P'] =   round(global_val_score['p'],3)
   text_to_store['A'] =   round(global_val_score['a'],3)
   text_to_store['epoch'] =  "%d/%d"%(global_val_score['epoch'],epochs)
-  text_to_store['param'] = model.get_parm_size()
+  # text_to_store['param'] = model.get_parm_size()
   text_to_store['FPS'] =   round(np.mean(mean_fps_array),1)
 
   output_txt = dump_info( FLAGS.results, text_to_store,'a')
