@@ -1,7 +1,5 @@
-architecture:
-- backbone
-- attention
 device: cuda:1
+max_points: 10000
 optimizer:
   amsgrad: true
   betas:

@@ -279,6 +279,8 @@ if __name__ == '__main__':
   print("[INF] Device: " + device)
   print("[INF] Result File: " + FLAGS.results)
   print("[INF] Session: " + SESSION['name'])
+  print("[INF] Retrieval top candidates: %d"%(SESSION['retrieval']['top_cand']))
+  print("[INF] Retrieval range threshold: %d"%(SESSION['retrieval']['range_thres']))
 
   try:
     for epoch in range(epochs):
@@ -338,11 +340,12 @@ if __name__ == '__main__':
 
       if epoch % VAL_EPOCH == 0:
         
+
         metric,val_poses,text = eval_net( model,
                                           test_dataset, 
                                           device,
-                                          top_candid = 10,
-                                          range_thres = 6
+                                          top_candid = SESSION['retrieval']['top_cand'],
+                                          range_thres = SESSION['retrieval']['range_thres']
                                           ) 
         
         mean_fps_array.append(metric['fps'])

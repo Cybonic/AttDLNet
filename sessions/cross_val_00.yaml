@@ -6,6 +6,10 @@ name: 'cross_val_00'
 ################################################################################
 pretrained_root: 'checkpoints'
 
+retrieval:
+  top_cand: 1
+  range_thres: 6
+
 train:
   max_epochs: 21
   wup_epochs: 1          # warmup during first XX epochs (can be float)

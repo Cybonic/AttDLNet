@@ -13,7 +13,9 @@ optimizer:
 
 device: 'cuda:1'
 
-max_points: 10000
+network:
+  max_points: 80000
+  output_dim: 256
 
 ################################################################################
 # backbone parameters
